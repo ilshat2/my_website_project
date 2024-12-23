@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from myresume.views import index
+from myresume import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('myresume/', index),  # http://127.0.0.1:8000/myresume/
+    path('', views.home),  # http://127.0.0.1:8000/
+    path('myresume/', views.index),  # http://127.0.0.1:8000/myresume/
 ]
