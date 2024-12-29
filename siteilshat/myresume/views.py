@@ -1,5 +1,6 @@
-from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 
 
@@ -12,13 +13,13 @@ def myresume(request, my_id):  # HttpRequest
 
 
 def myresume_by_slug(request, my_slug):  # HttpRequest
-    print(request.POST)
     return HttpResponse(f'<h3>Страница приложения myresume</h3><p>slug: {my_slug}</p>')
 
 
 def archive(request, year):
     if year > 2024:
-        raise Http404()
+        uri = reverse('myresume_slug', args=('music', ))
+        return redirect('/')
 
     return HttpResponse(f'<h3>Архив по годам</h3><p>{year}</p>')
 
