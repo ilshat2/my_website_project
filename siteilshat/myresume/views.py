@@ -2,26 +2,23 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.template.loader import render_to_string
+from django.template.defaultfilters import slugify
 
 menu = {'О сайте', 'Добавить статью', 'Обратная связь', 'Войти'}
 
 
-class MyClass:
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
+data_db = [
+    {'id': 1, 'title': 'Telegram Bot', 'content': 'Бот который раз в 10 минут опрашивает API', 'is_published': True},
+    {'id': 2, 'title': 'API Yamdb', 'content': 'RestAPI для сервиса Yamdb - базы данных книг, музыки, фильмов.', 'is_published': False},
+    {'id': 3, 'title': 'yamdb_final', 'content': 'web-приложение и базу данных, поднятых в двух docker-контейнерах', 'is_published': True},
+]
+
 
 def home(request):  # HttpRequest
-    # t = render_to_string('myresume/index.html')
-    # return HttpResponse(t)
     data ={
         'title': 'Главная страница',
         'menu': menu,
-        'float': 84.37,
-        'lst': [1, 2, 'abc', True],
-        'set': {1, 2, 4, 8, 18},
-        'dict': {'key_1': 'value_1', 'key_2': 'value_2'},
-        'obj': MyClass(10, 20),
+        'posts': data_db,
     }
     return render(request, 'myresume/index.html', context=data)
 
