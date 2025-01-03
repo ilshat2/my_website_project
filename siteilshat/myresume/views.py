@@ -4,8 +4,13 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 
-menu = {'О сайте', 'Добавить статью', 'Обратная связь', 'Войти'}
 
+menu = [
+    {'title': 'О сайте', 'url_name': 'about'},
+    {'title': 'Добавить статью', 'url_name': 'add_page'},
+    {'title': 'Обратная связь', 'url_name': 'contact'},
+    {'title': 'Войти', 'url_name': 'login'},
+]
 
 data_db = [
     {'id': 1, 'title': 'Telegram Bot', 'content': 'Бот который раз в 10 минут опрашивает API', 'is_published': True},
@@ -27,20 +32,20 @@ def about(request):
     return render(request, 'myresume/about.html', {'title': 'О сайте'})
 
 
-def myresume(request, my_id):  # HttpRequest
-    return HttpResponse(f'<h3>Страница приложения myresume</h3><p>id: {my_id}</p>')
+def show_post(request, post_id):
+    return HttpResponse(f'Отображение статьи с id = {post_id}')
 
 
-def myresume_by_slug(request, my_slug):  # HttpRequest
-    return HttpResponse(f'<h3>Страница приложения myresume</h3><p>slug: {my_slug}</p>')
+def addpage(request):
+    return HttpResponse('Добавление статьи')
 
 
-def archive(request, year):
-    if year > 2024:
-        uri = reverse('myresume_slug', args=('music', ))
-        return redirect('/')
+def contact(request):
+    return HttpResponse('Обратная связь')
 
-    return HttpResponse(f'<h3>Архив по годам</h3><p>{year}</p>')
+
+def login(request):
+    return HttpResponse('Авторизация')
 
 
 def page_not_found(request, exception):
