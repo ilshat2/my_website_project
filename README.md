@@ -1,6 +1,6 @@
 # my_website_project
 
-# Структура проекта
+### Структура проекта
 ```
 ilshat2
  └──  siteilshat
