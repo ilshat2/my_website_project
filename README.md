@@ -3,12 +3,12 @@
 ### Структура проекта
 ```
 ilshat2
- └──  siteilshat
+ └──  siteilshat          <--  
      ├──  myresume        <--  
-     ├──  siteilshat 
+     ├──  siteilshat      <--  
      ├──  __init__.py     <--
      └──  manage.py       <-- 
- ├──  .gitignore
- ├──  README.md
+ ├──  .gitignore          <--  
+ ├──  README.md           <--  
  └──  requirements.txt    <-- 
 ```
