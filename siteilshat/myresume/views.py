@@ -13,7 +13,10 @@ menu = [
 ]
 
 data_db = [
-    {'id': 1, 'title': 'Telegram Bot', 'content': 'Бот который раз в 10 минут опрашивает API', 'is_published': True},
+    {'id': 1, 'title': 'Telegram Bot', 'content': '''<h1>Telegram Bot</h1> который:
+        раз в 10 минут опрашивает API сервиса Практикум.Домашка и проверяет статус отправленной на ревью домашней работы;
+        при обновлении статуса анализирует ответ API и отправляет вам соответствующее уведомление в Telegram;
+        логирует свою работу и сообщает вам о важных проблемах сообщением в Telegram. ''', 'is_published': True},
     {'id': 2, 'title': 'API Yamdb', 'content': 'RestAPI для сервиса Yamdb - базы данных книг, музыки, фильмов.', 'is_published': False},
     {'id': 3, 'title': 'yamdb_final', 'content': 'web-приложение и базу данных, поднятых в двух docker-контейнерах', 'is_published': True},
 ]
