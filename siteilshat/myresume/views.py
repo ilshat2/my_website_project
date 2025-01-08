@@ -1,3 +1,5 @@
+from operator import index
+
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -21,12 +23,19 @@ data_db = [
     {'id': 3, 'title': 'yamdb_final', 'content': 'web-приложение и базу данных, поднятых в двух docker-контейнерах', 'is_published': True},
 ]
 
+cats_db = [
+    {'id': 1, 'name': 'Проекты'},
+    {'id': 2, 'name': 'Резюме'},
+    {'id': 3, 'name': 'Контакты'},
+]
+
 
 def home(request):  # HttpRequest
     data ={
         'title': 'Главная страница',
         'menu': menu,
         'posts': data_db,
+        'cat_selected': 0,
     }
     return render(request, 'myresume/index.html', context=data)
 
@@ -49,6 +58,16 @@ def contact(request):
 
 def login(request):
     return HttpResponse('Авторизация')
+
+
+def show_category(request, cat_id):
+    data = {
+        'title': 'Отображение по рубрикам',
+        'menu': menu,
+        'posts': data_db,
+        'cat_selected': cat_id,
+    }
+    return render(request, 'myresume/index.html', context=data)
 
 
 def page_not_found(request, exception):

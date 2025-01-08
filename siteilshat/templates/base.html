@@ -1,4 +1,5 @@
 {% load static %}
+{% load myresume_tags %}
 
 <!DOCTYPE html>
 <head>
@@ -14,6 +15,17 @@
         <a href="{% url m.url_name %}">{{ m.title }}</a>
     </li>
     {% endfor %}
+</ul>
+
+<ul id="leftchapters">
+    {% if cat_selected == 0 or cat_selected is None %}
+    <li class="selected">Все категории</li>
+    {% else %}
+    <li><a href="{% url 'home' %}">Все категории</a></li>
+    {% endif %}
+
+    {% show_categories cat_selected %}
+
 </ul>
 
 {% block content %} {% endblock %}
