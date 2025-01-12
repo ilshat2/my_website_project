@@ -1,10 +1,11 @@
 from operator import index
 
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
+from myresume.models import Myresume
 
 
 menu = [
@@ -45,7 +46,15 @@ def about(request):
 
 
 def show_post(request, post_id):
-    return HttpResponse(f'Отображение статьи с id = {post_id}')
+    post = get_object_or_404(Myresume, pk=post_id)
+
+    data = {
+        'title': post.title,
+        'menu': menu,
+        'post': post,
+        'cat_selected': 1,
+    }
+    return render(request, 'myresume/post.html', data)
 
 
 def addpage(request):
