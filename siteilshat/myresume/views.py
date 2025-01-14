@@ -32,10 +32,12 @@ cats_db = [
 
 
 def home(request):  # HttpRequest
+    posts = Myresume.objects.filter(is_published=1)
+
     data ={
         'title': 'Главная страница',
         'menu': menu,
-        'posts': data_db,
+        'posts': posts,
         'cat_selected': 0,
     }
     return render(request, 'myresume/index.html', context=data)
@@ -45,8 +47,8 @@ def about(request):
     return render(request, 'myresume/about.html', {'title': 'О сайте', 'menu': menu})
 
 
-def show_post(request, post_id):
-    post = get_object_or_404(Myresume, pk=post_id)
+def show_post(request, post_slug):
+    post = get_object_or_404(Myresume, slug=post_slug)
 
     data = {
         'title': post.title,
