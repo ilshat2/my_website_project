@@ -32,7 +32,7 @@ cats_db = [
 
 
 def home(request):  # HttpRequest
-    posts = Myresume.objects.filter(is_published=1)
+    posts = Myresume.published.all()
 
     data ={
         'title': 'Главная страница',
