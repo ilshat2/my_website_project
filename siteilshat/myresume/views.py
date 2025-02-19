@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
-from myresume.models import Myresume
+from myresume.models import Myresume, Category
 
 
 menu = [
@@ -22,12 +22,6 @@ data_db = [
         логирует свою работу и сообщает вам о важных проблемах сообщением в Telegram. ''', 'is_published': True},
     {'id': 2, 'title': 'API Yamdb', 'content': 'RestAPI для сервиса Yamdb - базы данных книг, музыки, фильмов.', 'is_published': False},
     {'id': 3, 'title': 'yamdb_final', 'content': 'web-приложение и базу данных, поднятых в двух docker-контейнерах', 'is_published': True},
-]
-
-cats_db = [
-    {'id': 1, 'name': 'Проекты'},
-    {'id': 2, 'name': 'Резюме'},
-    {'id': 3, 'name': 'Контакты'},
 ]
 
 
@@ -71,12 +65,14 @@ def login(request):
     return HttpResponse('Авторизация')
 
 
-def show_category(request, cat_id):
+def show_category(request, cat_slug):
+    category = get_object_or_404(Category, slug=cat_slug)
+    posts = Myresume.published.filter(cat_id=category.pk)
     data = {
-        'title': 'Отображение по рубрикам',
+        'title': f'Рубрика: {category.name}',
         'menu': menu,
-        'posts': data_db,
-        'cat_selected': cat_id,
+        'posts': posts,
+        'cat_selected': category.pk,
     }
     return render(request, 'myresume/index.html', context=data)
 
