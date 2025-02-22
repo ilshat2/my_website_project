@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
-from myresume.models import Myresume, Category
+from myresume.models import Myresume, Category, TagPost
 
 
 menu = [
@@ -79,3 +79,16 @@ def show_category(request, cat_slug):
 
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1?')
+
+
+def show_tag_postlist(request, tag_slug):
+    tag = get_object_or_404(TagPost, slug=tag_slug)
+    posts = tag.tags.filter(is_published=Myresume.Status.PUBLISHED)
+
+    data = {
+        'title': f'Тег: {tag.tag}',
+        'menu': menu,
+        'posts': posts,
+        'cat_selected': None,
+    }
+    return render(request, 'myresume/index.html', context=data)
