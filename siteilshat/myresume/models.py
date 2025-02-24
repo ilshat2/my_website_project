@@ -20,6 +20,8 @@ class Myresume(models.Model):
     is_published = models.BooleanField(choices=Status.choices, default=Status.PUBLISHED)
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, related_name='posts')
     tags = models.ManyToManyField('TagPost', blank=True, related_name='tags')
+    photo = models.OneToOneField('Photo', on_delete=models.SET_NULL,
+                                 null=True, blank=True, related_name='myresume')
 
     objects = models.Manager()
     published = PublishedManager()
@@ -56,3 +58,10 @@ class TagPost(models.Model):
 
     def get_absolute_url(self):
         return reverse('tag', kwargs={'tag_slug': self.slug})
+
+class Photo(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.name
