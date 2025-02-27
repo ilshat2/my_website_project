@@ -15,18 +15,9 @@ menu = [
     {'title': 'Войти', 'url_name': 'login'},
 ]
 
-data_db = [
-    {'id': 1, 'title': 'Telegram Bot', 'content': '''<h1>Telegram Bot</h1> который:
-        раз в 10 минут опрашивает API сервиса Практикум.Домашка и проверяет статус отправленной на ревью домашней работы;
-        при обновлении статуса анализирует ответ API и отправляет вам соответствующее уведомление в Telegram;
-        логирует свою работу и сообщает вам о важных проблемах сообщением в Telegram. ''', 'is_published': True},
-    {'id': 2, 'title': 'API Yamdb', 'content': 'RestAPI для сервиса Yamdb - базы данных книг, музыки, фильмов.', 'is_published': False},
-    {'id': 3, 'title': 'yamdb_final', 'content': 'web-приложение и базу данных, поднятых в двух docker-контейнерах', 'is_published': True},
-]
-
 
 def home(request):  # HttpRequest
-    posts = Myresume.published.all()
+    posts = Myresume.published.all().select_related('cat')
 
     data ={
         'title': 'Главная страница',
@@ -67,7 +58,7 @@ def login(request):
 
 def show_category(request, cat_slug):
     category = get_object_or_404(Category, slug=cat_slug)
-    posts = Myresume.published.filter(cat_id=category.pk)
+    posts = Myresume.published.filter(cat_id=category.pk).select_related('cat')
     data = {
         'title': f'Рубрика: {category.name}',
         'menu': menu,
@@ -83,7 +74,7 @@ def page_not_found(request, exception):
 
 def show_tag_postlist(request, tag_slug):
     tag = get_object_or_404(TagPost, slug=tag_slug)
-    posts = tag.tags.filter(is_published=Myresume.Status.PUBLISHED)
+    posts = tag.tags.filter(is_published=Myresume.Status.PUBLISHED).select_related('cat')
 
     data = {
         'title': f'Тег: {tag.tag}',

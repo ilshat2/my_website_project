@@ -22,6 +22,7 @@ from myresume import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('myresume.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 handler404 = views.page_not_found
