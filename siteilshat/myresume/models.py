@@ -33,6 +33,8 @@ class Myresume(models.Model):
         return reverse('post', kwargs={'post_slug': self.slug})
 
     class Meta:
+        verbose_name = 'Мои Проекты'
+        verbose_name_plural = 'Мои Проекты'
         ordering = ['-time_create']
         indexes = [
             models.Index(fields=['-time_create'])
