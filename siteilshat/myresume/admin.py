@@ -20,6 +20,11 @@ class PhotoFilter(admin.SimpleListFilter):
 
 @admin.register(Myresume)
 class MyresumeAdmin(admin.ModelAdmin):
+    fields = ['title', 'content', 'slug', 'cat', 'photo', 'tags']
+    # readonly_fields = ['slug']
+    prepopulated_fields = {'slug': ('title', )}
+    # filter_horizontal = ['tags']
+    filter_vertical = ['tags']
     list_display = ('title', 'time_create', 'is_published', 'cat', 'brief_info')
     list_display_links = ('title', )
     ordering = ['-time_create', 'title']
