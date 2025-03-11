@@ -5,7 +5,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
+from myresume.forms import AddPostForm
 from myresume.models import Myresume, Category, TagPost
+
 
 
 menu = [
@@ -45,7 +47,13 @@ def show_post(request, post_slug):
 
 
 def addpage(request):
-    return render(request, 'myresume/addpage.html', {'menu': menu, 'title': 'Добавление статьи'})
+    form = AddPostForm()
+    data = {
+        'menu': menu,
+        'title': 'Добавление статьи',
+        'form': form
+    }
+    return render(request, 'myresume/addpage.html', data)
 
 
 def contact(request):
