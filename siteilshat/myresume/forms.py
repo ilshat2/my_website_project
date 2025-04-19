@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.utils.deconstruct import deconstructible
 from myresume.models import Category, Photo
+from myresume.models import Myresume
 
 
 @deconstructible
@@ -18,30 +19,15 @@ class RussianValidator:
             raise ValidationError(self.message, code=self.code)
 
 
-class AddPostForm(forms.Form):
-    title = forms.CharField(max_length=255,
-                            min_length=5,
-                            label='Заголовок',
-                            widget=forms.TextInput(attrs={'class': 'form-input'}),
-                            error_messages={
-                                'min_length': 'Слишком короткий заголовок',
-                                'required': 'Без заголовка никак',
-                            })
-    slug = forms.SlugField(max_length=255,
-                           label='URL',
-                           validators=[
-                               MinLengthValidator(5, message='Минимум 5 символов'),
-                               MaxLengthValidator(100, message='Максимум 100 символов'),
-
-                           ])
-    content = forms.CharField(widget=forms.Textarea(), required=False)
-    is_published = forms.BooleanField(required=False)
+class AddPostForm(forms.ModelForm):
     cat = forms.ModelChoiceField(queryset=Category.objects.all())
     photo = forms.ModelChoiceField(queryset=Photo.objects.all(), required=False)
 
-    def clean_title(self):
-        title = self.cleaned_data['title']
-        ALLOWED_CHARS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщбыъэюя0123456789- "
-
-        if not (set(title) <= set(ALLOWED_CHARS)):
-            raise ValidationError('Должны присутствовать только русские символы, дефис и пробел.')
+    class Meta:
+        model = Myresume
+        fields = ['title', 'slug', 'content', 'is_published', 'cat', 'photo', 'tags']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-input'}),
+            'content': forms.Textarea(attrs={'cols': 50, 'rows': 5}),
+        }
+        labels = {'slug': 'URL'}
